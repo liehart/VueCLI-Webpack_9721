@@ -12,28 +12,39 @@ const router = new VueRouter({
   routes: [
     {
       path: "/",
-      name: "admin",
       component: importComponent("DashboardLayout"),
       children: [
         //Dashboard
         {
-          path: "/",
-          name: "Root",
+          path: "/dashboard",
+          name: "Dashboard",
+          meta: {title: 'Dashboard'},
           component: importComponent("Dashboard"),
         },
-        // To do list
         {
-          path: "/gd",
-          name: "Guided",
-          component: importComponent("TodoList/List"),
-        },
-        {
-          path: "/ugd",
-          name: "Unguided",
-          component: importComponent("TodoList/ListUGD"),
-        },
+          path: "/products",
+          name: "Products",
+          meta: {title: 'Products'},
+          component: importComponent("DataMaster/Products"),
+        }
       ],
     },
+    {
+      path: "/login",
+      name: "login",
+      meta: {title: 'Login'},
+      component: importComponent("Login"),
+    },
+    {
+      path : "*",
+      redirect: "/"
+    }
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
+})
+
 export default router;
